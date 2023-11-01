@@ -135,10 +135,14 @@
         <h3>Barcode Generator</h3>
         <i style="font-size: 10pt"
           >You can write a note to the code by separating the code & note by
-          space:</i
+          space</i
         >
-        <pre>1234567890 example note</pre>
-        <textarea id="barcodesInputMultiple" cols="30" rows="15"></textarea>
+        <textarea
+          id="barcodesInputMultiple"
+          cols="30"
+          rows="15"
+          placeholder="123456789 Product A&#10;123456789 Item B&#10;123456789 example note"
+        ></textarea>
         <div>
           <button onclick="generateEan()">EAN-13</button>
           <button onclick="generateCode128()">Code128</button>
