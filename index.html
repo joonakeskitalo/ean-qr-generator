@@ -166,6 +166,9 @@
             GS1 DataBar Limited
           </button>
         </div>
+        <div style="margin: 16px 0">
+          <span id="error-indicator"></span>
+        </div>
         <div id="barcodes"></div>
 
         <div
@@ -212,23 +215,30 @@
           });
       };
 
+      const errorIndicatorElement = document.getElementById("error-indicator");
       const generateCodes = (codeType, height, width) => {
         parent.innerHTML = "";
+        errorIndicatorElement.innerText = "";
         parseLines().forEach((line) => {
           const canvas = document.createElement("canvas");
-          bwipjs.toCanvas(canvas, {
-            bcid: codeType,
-            text: line.barcode,
-            scale: 2,
-            includetext: true,
-            textxalign: "center",
-            ...(height && { height }),
-            ...(width && { width }),
-          });
 
-          const img = document.createElement("img");
-          img.src = canvas.toDataURL("image/png");
-          line.container.prepend(img);
+          try {
+            bwipjs.toCanvas(canvas, {
+              bcid: codeType,
+              text: line.barcode,
+              scale: 2,
+              includetext: true,
+              textxalign: "center",
+              ...(height && { height }),
+              ...(width && { width }),
+            });
+
+            const img = document.createElement("img");
+            img.src = canvas.toDataURL("image/png");
+            line.container.prepend(img);
+          } catch (e) {
+            errorIndicatorElement.innerText = `Error creating code: ${e.message}`;
+          }
         });
       };
     </script>
