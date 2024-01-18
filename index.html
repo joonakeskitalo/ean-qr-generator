@@ -99,7 +99,6 @@
         flex-direction: column;
         align-items: center;
         padding: 25px;
-        width: 25%;
       }
 
       #barcodes > div > div > img,
@@ -108,6 +107,7 @@
         filter: blur(12px);
         margin-bottom: 10px;
       }
+
       #barcodes > div:hover > div > img,
       #barcodes > div:hover > img {
         opacity: 1;
@@ -129,6 +129,7 @@
       }
     </style>
   </head>
+
   <body>
     <div class="content-container">
       <div class="content">
@@ -147,6 +148,7 @@
           <button onclick="generateEan()">EAN-13</button>
           <button onclick="generateCode128()">Code128</button>
           <button onclick="generateQrCodes()">QR</button>
+          <button onclick="generateDatabar()">GS1 DataBar Limited</button>
         </div>
         <div id="barcodes"></div>
 
@@ -173,6 +175,7 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/JsBarcode.all.min.js"></script>
     <script src="./lib/qrcode.min.js"></script>
+    <script src="./lib/bwip-js-min.js"></script>
 
     <script>
       const barcodeInput = document.getElementById("barcodeInput");
@@ -285,6 +288,40 @@
           })
           .forEach((x) => {
             JsBarcode(x.id, x.barcode).render();
+          });
+      };
+
+      const generateDatabar = () => {
+        parent.innerHTML = "";
+        inputField.value
+          .trim()
+          .split("\n")
+          .filter((x) => x && x !== "")
+          .map((x) => x.trim())
+          .map((line) => {
+            const [code, ...name] = line.split(" ");
+            const id = makeAsciiId(64);
+            const container = document.createElement("div");
+            const title = document.createElement("span");
+            title.innerText = `${name.join(" ")}\n${code}`;
+            container.appendChild(title);
+            parent.appendChild(container);
+            return { id: `#${id}`, barcode: code, container };
+          })
+          .forEach((x) => {
+            const canvas = document.createElement("canvas");
+            bwipjs.toCanvas(canvas, {
+              bcid: "databarlimited",
+              text: x.barcode,
+              scale: 3,
+              height: 10,
+              includetext: true,
+              textxalign: "center",
+            });
+
+            const img = document.createElement("img");
+            img.src = canvas.toDataURL("image/png");
+            x.container.prepend(img);
           });
       };
 
