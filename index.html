@@ -415,6 +415,8 @@
       const barcodeInput = document.getElementById("barcodeInput");
       const parent = document.getElementById("barcodes");
       const inputField = document.getElementById("barcodesInputMultiple");
+      const selectCodeTypeElement = document.getElementById("code-type-select");
+      const errorIndicatorElement = document.getElementById("error-indicator");
 
       const parseLines = () => {
         return inputField.value
@@ -432,9 +434,6 @@
             return { barcode: code, container };
           });
       };
-
-      const selectCodeTypeElement = document.getElementById("code-type-select");
-      const errorIndicatorElement = document.getElementById("error-indicator");
 
       const generateCodes = (codeType, height, width) => {
         selectCodeTypeElement.value = codeType;
