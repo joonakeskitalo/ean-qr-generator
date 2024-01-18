@@ -162,9 +162,7 @@
           "
         >
           Uses
-          <a href="https://github.com/metafloor/bwip-js">bwip-js</a>,
-          <a href="https://davidshimjs.github.io/qrcodejs/">qrcode.js</a> and
-          <a href="https://github.com/lindell/JsBarcode">JsBarcode</a>
+          <a href="https://github.com/metafloor/bwip-js">bwip-js</a>.
           <br />
           <span
             >Made by
@@ -175,8 +173,6 @@
         </div>
       </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/jsbarcode@3.11.0/dist/JsBarcode.all.min.js"></script>
-    <script src="./lib/qrcode.min.js"></script>
     <script src="./lib/bwip-js-min.js"></script>
 
     <script>
@@ -184,152 +180,46 @@
       const parent = document.getElementById("barcodes");
       const inputField = document.getElementById("barcodesInputMultiple");
 
-      // Ascii because numbers etc. don't work as IDs for barcodeJs
-      function makeAsciiId(length) {
-        let result = "";
-        const characters =
-          "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
-        const charactersLength = characters.length;
-        let counter = 0;
-        while (counter < length) {
-          result += characters.charAt(
-            Math.floor(Math.random() * charactersLength)
-          );
-          counter += 1;
-        }
-        return result;
-      }
-
-      const generateQrCodes = () => {
-        parent.innerHTML = "";
-        inputField.value
-          .trim()
-          .split("\n")
-          .filter((x) => x && x !== "")
-          .map((x) => x.trim())
-          .map((line) => {
-            const [ean, ...name] = line.split(" ");
-            const id = makeAsciiId(64);
-
-            const barcodeEl = document.createElement("div");
-            barcodeEl.id = id;
-            barcodeEl.alt = ean;
-
-            const container = document.createElement("div");
-            const title = document.createElement("span");
-            title.innerText = `${name.join(" ")}\n${ean}`;
-
-            container.appendChild(barcodeEl);
-            container.appendChild(title);
-            parent.appendChild(container);
-            return { id: `#${id}`, rawId: id, barcode: ean };
-          })
-          .forEach((x) => {
-            new QRCode(x.rawId, {
-              text: x.barcode,
-              width: 150,
-              height: 150,
-              colorDark: "#000000",
-              colorLight: "#ffffff",
-              correctLevel: QRCode.CorrectLevel.H,
-            });
-          });
-      };
-      const generateCode128 = () => {
-        parent.innerHTML = "";
-        inputField.value
-          .trim()
-          .split("\n")
-          .filter((x) => x && x !== "")
-          .map((x) => x.trim())
-          .map((line) => {
-            const [ean, ...name] = line.split(" ");
-            const id = makeAsciiId(64);
-
-            const barcodeEl = document.createElement("img");
-            barcodeEl.id = id;
-            barcodeEl.alt = ean;
-
-            const container = document.createElement("div");
-            const title = document.createElement("span");
-            title.innerText = `${name.join(" ")}\n${ean}`;
-
-            container.appendChild(barcodeEl);
-            container.appendChild(title);
-            parent.appendChild(container);
-            return { id: `#${id}`, barcode: ean };
-          })
-          .forEach((x) => {
-            JsBarcode(x.id, x.barcode, { width: 1 }).render();
-          });
-      };
-
-      const generateEan = () => {
-        parent.innerHTML = "";
-        inputField.value
-          .trim()
-          .split("\n")
-          .filter((x) => x && x !== "")
-          .map((x) => x.trim())
-          .map((line) => {
-            const [ean, ...name] = line.split(" ");
-            const id = makeAsciiId(64);
-
-            const barcodeEl = document.createElement("img");
-            barcodeEl.id = id;
-            barcodeEl.alt = ean;
-
-            const container = document.createElement("div");
-            const title = document.createElement("span");
-            title.innerText = `${name.join(" ")}\n${ean}`;
-
-            container.appendChild(barcodeEl);
-            container.appendChild(title);
-            parent.appendChild(container);
-            return { id: `#${id}`, barcode: ean };
-          })
-          .forEach((x) => {
-            JsBarcode(x.id, x.barcode).render();
-          });
-      };
-
-      const generateDatabar = () => {
-        parent.innerHTML = "";
-        inputField.value
+      const parseLines = () => {
+        return inputField.value
           .trim()
           .split("\n")
           .filter((x) => x && x !== "")
           .map((x) => x.trim())
           .map((line) => {
             const [code, ...name] = line.split(" ");
-            const id = makeAsciiId(64);
             const container = document.createElement("div");
             const title = document.createElement("span");
             title.innerText = `${name.join(" ")}\n${code}`;
             container.appendChild(title);
             parent.appendChild(container);
-            return { id: `#${id}`, barcode: code, container };
-          })
-          .forEach((x) => {
-            const canvas = document.createElement("canvas");
-            bwipjs.toCanvas(canvas, {
-              bcid: "databarlimited",
-              text: x.barcode,
-              scale: 3,
-              height: 10,
-              includetext: true,
-              textxalign: "center",
-            });
-
-            const img = document.createElement("img");
-            img.src = canvas.toDataURL("image/png");
-            x.container.prepend(img);
+            return { barcode: code, container };
           });
       };
 
-      const render = () => {
-        JsBarcode("#barcode", barcodeInput.value);
+      const generateCodes = (codeType, height) => {
+        parent.innerHTML = "";
+        parseLines().forEach((line) => {
+          const canvas = document.createElement("canvas");
+          bwipjs.toCanvas(canvas, {
+            bcid: codeType,
+            text: line.barcode,
+            scale: 2,
+            includetext: true,
+            textxalign: "center",
+            ...(height && { height }),
+          });
+
+          const img = document.createElement("img");
+          img.src = canvas.toDataURL("image/png");
+          line.container.prepend(img);
+        });
       };
+
+      const generateCode128 = () => generateCodes("code128", 10);
+      const generateEan = () => generateCodes("ean13", 10);
+      const generateDatabar = () => generateCodes("databarlimited", 10);
+      const generateQrCodes = () => generateCodes("qrcode");
     </script>
   </body>
 </html>
