@@ -145,11 +145,26 @@
           rows="15"
           placeholder="123456789 Product A&#10;123456789 Item B&#10;123456789 example note"
         ></textarea>
-        <div>
-          <button onclick="generateEan()">EAN-13</button>
-          <button onclick="generateCode128()">Code128</button>
-          <button onclick="generateQrCodes()">QR</button>
-          <button onclick="generateDatabar()">GS1 DataBar Limited</button>
+        <div
+          style="
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            max-width: 700px;
+            justify-content: center;
+          "
+        >
+          <button onclick="generateCodes('ean8',10)">EAN-8</button>
+          <button onclick="generateCodes('ean13',10)">EAN-13</button>
+          <button onclick="generateCodes('code128',10)">Code128</button>
+          <button onclick="generateCodes('qrcode',28,28)">QR</button>
+          <button onclick="generateCodes('microqrcode',10,10)">Micro QR</button>
+          <button onclick="generateCodes('datamatrix',28,28)">
+            Data matrix
+          </button>
+          <button onclick="generateCodes('databarlimited',10)">
+            GS1 DataBar Limited
+          </button>
         </div>
         <div id="barcodes"></div>
 
@@ -216,11 +231,6 @@
           line.container.prepend(img);
         });
       };
-
-      const generateCode128 = () => generateCodes("code128", 10);
-      const generateEan = () => generateCodes("ean13", 10);
-      const generateDatabar = () => generateCodes("databarlimited", 10);
-      const generateQrCodes = () => generateCodes("qrcode", 28, 28);
     </script>
   </body>
 </html>
