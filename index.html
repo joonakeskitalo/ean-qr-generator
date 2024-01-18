@@ -197,7 +197,7 @@
           });
       };
 
-      const generateCodes = (codeType, height) => {
+      const generateCodes = (codeType, height, width) => {
         parent.innerHTML = "";
         parseLines().forEach((line) => {
           const canvas = document.createElement("canvas");
@@ -208,6 +208,7 @@
             includetext: true,
             textxalign: "center",
             ...(height && { height }),
+            ...(width && { width }),
           });
 
           const img = document.createElement("img");
@@ -219,7 +220,7 @@
       const generateCode128 = () => generateCodes("code128", 10);
       const generateEan = () => generateCodes("ean13", 10);
       const generateDatabar = () => generateCodes("databarlimited", 10);
-      const generateQrCodes = () => generateCodes("qrcode");
+      const generateQrCodes = () => generateCodes("qrcode", 28, 28);
     </script>
   </body>
 </html>
