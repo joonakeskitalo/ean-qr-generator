@@ -32,16 +32,27 @@
       .content {
         display: flex;
         flex-direction: column;
-        min-width: 300px;
         align-items: center;
-        min-width: 700px;
+        width: 1200px;
+        margin: 0 12px;
       }
 
       .content input {
         padding: 0.5em;
       }
 
-      .content select,
+      .content select {
+        width: 50%;
+        font-size: 11pt;
+        padding: 0.7em;
+        min-width: 100px;
+        margin: 0.75em 0.2em 0 0.2em;
+        background-color: #f6f6f6;
+        border: none;
+        border-radius: 0.15em;
+        border: 1px solid #c6c6c6;
+      }
+
       .content button {
         font-size: 11pt;
         padding: 0.7em;
@@ -54,14 +65,13 @@
       }
 
       .content .placeholder {
-        min-width: 300px;
+        width: 300px;
         min-height: 200px;
         display: flex;
         align-items: center;
         justify-items: center;
         justify-content: center;
         flex-direction: column;
-        width: 300px;
       }
 
       .content input,
@@ -74,7 +84,7 @@
         border-radius: 0.25em;
         font-family: "Fira Code Retina", monospace;
         font-size: 10pt;
-        min-width: 700px;
+        width: 80%;
         margin: 1em;
       }
 
@@ -84,7 +94,7 @@
       }
 
       #barcodes {
-        max-width: 1200px;
+        width: 100%;
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
@@ -152,7 +162,6 @@
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
-            max-width: 800px;
             justify-content: center;
           "
         >
@@ -162,11 +171,11 @@
           <button onclick="generateCodes('qrcode',25,25)">QR</button>
           <button onclick="generateCodes('microqrcode',15,15)">Micro QR</button>
           <button onclick="generateCodes('databarlimited',10)">
-            GS1 DataBar Limited
+            GS1 DataBar
           </button>
         </div>
 
-        <div>
+        <div style="display: flex; justify-content: center">
           <select onchange="generateCodes(this.value)" id="code-type-select">
             <option selected disabled value="">or select from this list</option>
             <option value="auspost">
@@ -375,7 +384,7 @@
           <button onclick="update()">Update</button>
         </div>
 
-        <div style="margin: 16px 0">
+        <div style="margin: 16px 0; max-width: 100%">
           <span id="error-indicator"></span>
         </div>
         <div id="barcodes"></div>
