@@ -203,10 +203,10 @@
           "
         >
           <div>
-            <button onclick="generateCodes('ean8',10)">EAN-8</button>
-            <button onclick="generateCodes('ean13',15)">EAN-13</button>
-            <button onclick="generateCodes('code128',10)">Code128</button>
-            <button onclick="generateCodes('qrcode',25,25)">QR</button>
+            <button onclick="generateCodes('ean8')">EAN-8</button>
+            <button onclick="generateCodes('ean13')">EAN-13</button>
+            <button onclick="generateCodes('code128')">Code128</button>
+            <button onclick="generateCodes('qrcode', 25,25)">QR</button>
           </div>
 
           <div style="display: flex; justify-content: flex-end">
@@ -443,6 +443,41 @@
       const selectCodeTypeElement = document.getElementById("code-type-select");
       const errorIndicatorElement = document.getElementById("error-indicator");
 
+      const urlSave = {
+        fromBinary: (encoded) => {
+          const binary = atob(encoded);
+          const bytes = new Uint8Array(binary.length);
+          for (let i = 0; i < bytes.length; i++) {
+            bytes[i] = binary.charCodeAt(i);
+          }
+          return String.fromCharCode(...new Uint16Array(bytes.buffer));
+        },
+        toBinary: (string) => {
+          const codeUnits = new Uint16Array(string.length);
+          for (let i = 0; i < codeUnits.length; i++) {
+            codeUnits[i] = string.charCodeAt(i);
+          }
+          return btoa(String.fromCharCode(...new Uint8Array(codeUnits.buffer)));
+        },
+        remove: () => {
+          window.location = window.location.href.split("#")[0];
+        },
+        set: (value) => {
+          if (!value) {
+            urlSave.remove();
+            return;
+          }
+          window.location.hash = `#${urlSave.toBinary(value)}`;
+        },
+        get: () => {
+          const hash = window.location.hash.substring(1);
+          if (hash) {
+            const decoded = urlSave.fromBinary(hash);
+            return decoded;
+          }
+        },
+      };
+
       const parseLines = () => {
         return inputField.value
           .trim()
@@ -464,6 +499,14 @@
         selectCodeTypeElement.value = codeType;
         parent.innerHTML = "";
         errorIndicatorElement.innerText = "";
+
+        urlSave.set(
+          JSON.stringify({
+            type: codeType,
+            data: inputField.value,
+          })
+        );
+
         parseLines().forEach((line) => {
           const canvas = document.createElement("canvas");
 
@@ -490,6 +533,17 @@
       const update = () => {
         generateCodes(selectCodeTypeElement.value);
       };
+
+      const loadFromHash = () => {
+        const fromUrl = urlSave.get();
+        if (fromUrl) {
+          const v = JSON.parse(fromUrl);
+          inputField.value = v.data;
+          generateCodes(v.type);
+        }
+      };
+
+      loadFromHash();
     </script>
   </body>
 </html>
