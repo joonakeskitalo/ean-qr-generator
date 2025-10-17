@@ -92,61 +92,62 @@
         flex-direction: row;
         flex-wrap: wrap;
         justify-content: center;
-      }
 
-      #barcodes span {
-        font-size: 9pt;
-        text-align: center;
-      }
+        & span {
+          font-size: 9pt;
+          text-align: center;
+        }
 
-      #barcodes > div {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 25px;
-        width: 325px;
-      }
+        & > div {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          padding: 25px;
+          width: 325px;
+        }
 
-      #barcodes > div > div > img,
-      #barcodes > div > img {
-        opacity: 0.1;
-        filter: blur(12px);
-        margin-bottom: 10px;
-      }
+        & > div > img {
+          opacity: 0.1;
+          filter: blur(12px);
+          margin-bottom: 10px;
+        }
 
-      #barcodes > div:hover > div > img,
-      #barcodes > div:hover > img {
-        opacity: 1;
-        filter: none;
-      }
-
-      @media print {
-        #barcodes > div > div > img,
-        #barcodes > div > img {
+        & > div:hover > img {
           opacity: 1;
           filter: none;
         }
+      }
 
-        #barcodes > div {
-          width: unset;
-          padding: 16px 16px;
-          width: 115px;
+      @media print {
+        #barcodes {
+          justify-content: flex-start;
+
+          & span {
+            padding-top: 4px;
+            font-size: 6pt;
+          }
+
+          & > div {
+            break-inside: avoid;
+            width: unset;
+            padding: 16px 16px;
+            width: 115px;
+
+            & > img {
+              width: 100px;
+              margin-bottom: unset;
+              opacity: 1;
+              filter: none;
+            }
+          }
         }
 
-        #barcodes > div > img {
-          width: 100px;
-          margin-bottom: unset;
-        }
-
-        #barcodes span {
-          padding-top: 12px;;
-          font-size: 6pt;
-        }
-
+        .content > div > div:has(h1) > span,
+        #barcodesInputMultiple,
+        a,
         i,
         select,
         input,
-        #barcodesInputMultiple,
         button,
         h1 {
           display: none;
