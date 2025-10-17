@@ -585,7 +585,7 @@
       const share = () => {
         urlSave.set(
           JSON.stringify({
-            type: selectCodeTypeElement.value,
+            type: selectCodeTypeElement.value || "ean13",
             data: inputField.value,
           })
         );
