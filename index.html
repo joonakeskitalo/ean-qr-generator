@@ -16,6 +16,10 @@
         margin: 0;
       }
 
+      h3 {
+        line-height: 12px;
+      }
+
       body {
         font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
           Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue",
@@ -46,10 +50,10 @@
         font-size: 11pt;
         padding: 0.7em;
         min-width: 100px;
-        margin: 0.75em 0.2em 0 0.2em;
+        margin: 0 0.2em 0 0;
         background-color: #f6f6f6;
         border: none;
-        border-radius: 0.15em;
+        border-radius: 0.33em;
         border: 1px solid #c6c6c6;
       }
 
@@ -57,21 +61,11 @@
         font-size: 11pt;
         padding: 0.7em;
         min-width: 100px;
-        margin: 0.75em 0.2em 0 0.2em;
+        margin: 0 0.2em 0 0;
         background-color: #f6f6f6;
         border: none;
-        border-radius: 0.15em;
+        border-radius: 0.33em;
         border: 1px solid #c6c6c6;
-      }
-
-      .content .placeholder {
-        width: 300px;
-        min-height: 200px;
-        display: flex;
-        align-items: center;
-        justify-items: center;
-        justify-content: center;
-        flex-direction: column;
       }
 
       .content input,
@@ -81,15 +75,19 @@
 
       textarea {
         border: 1px solid #0a2d4d;
-        border-radius: 0.25em;
+        border-radius: 0.33em;
         font-family: "Fira Code Retina", monospace;
-        font-size: 10pt;
-        width: 80%;
-        margin: 1em;
+        font-size: 11pt;
+        width: 100%;
+        padding: 8px;
+        margin: 8px;
+        box-sizing: border-box;
       }
 
       #barcodesInputMultiple {
         min-height: 250px;
+        height: 250px;
+        resize: none;
         border: 1px solid #c6c6c6;
       }
 
@@ -159,11 +157,36 @@
   <body>
     <div class="content-container">
       <div class="content">
-        <h3>Barcode Generator</h3>
-        <i style="font-size: 10pt"
-          >You can write a note to the code by separating the code & note by
-          space</i
-        >
+        <div style="display: flex; justify-content: space-between; width: 100%">
+          <div
+            style="
+              display: flex;
+              align-items: center;
+              gap: 12px;
+              padding-left: 4px;
+            "
+          >
+            <h3>Barcode Generator</h3>
+          </div>
+
+          <div
+            style="
+              display: flex;
+              flex-direction: column;
+              padding: 0 8px;
+              font-size: 9pt;
+              justify-content: center;
+              align-items: flex-end;
+            "
+          >
+            <span
+              >Tool made by
+              <a href="https://joonakeskitalo.github.io/"
+                >Joona Keskitalo</a
+              ></span
+            >
+          </div>
+        </div>
         <textarea
           id="barcodesInputMultiple"
           cols="30"
@@ -175,248 +198,240 @@
             display: flex;
             flex-direction: row;
             flex-wrap: wrap;
-            justify-content: center;
+            justify-content: space-between;
+            width: 100%;
           "
         >
-          <button onclick="generateCodes('ean8',10)">EAN-8</button>
-          <button onclick="generateCodes('ean13',15)">EAN-13</button>
-          <button onclick="generateCodes('code128',10)">Code128</button>
-          <button onclick="generateCodes('qrcode',25,25)">QR</button>
-        </div>
+          <div>
+            <button onclick="generateCodes('ean8',10)">EAN-8</button>
+            <button onclick="generateCodes('ean13',15)">EAN-13</button>
+            <button onclick="generateCodes('code128',10)">Code128</button>
+            <button onclick="generateCodes('qrcode',25,25)">QR</button>
+          </div>
 
-        <div style="display: flex; justify-content: center">
-          <select onchange="generateCodes(this.value)" id="code-type-select">
-            <option selected disabled value="">or select from this list</option>
-            <option value="auspost">
-              AusPost 4 State Customer Code (auspost)
-            </option>
-            <option value="azteccode">Aztec Code (azteccode)</option>
-            <option value="azteccodecompact">
-              Compact Aztec Code (azteccodecompact)
-            </option>
-            <option value="aztecrune">Aztec Runes (aztecrune)</option>
-            <option value="bc412">BC412 (bc412)</option>
-            <option value="channelcode">Channel Code (channelcode)</option>
-            <option value="codablockf">Codablock F (codablockf)</option>
-            <option value="code11">Code 11 (code11)</option>
-            <option value="code128">Code 128 (code128)</option>
-            <option value="code16k">Code 16K (code16k)</option>
-            <option value="code2of5">Code 25 (code2of5)</option>
-            <option value="code32">Italian Pharmacode (code32)</option>
-            <option value="code39">Code 39 (code39)</option>
-            <option value="code39ext">Code 39 Extended (code39ext)</option>
-            <option value="code49">Code 49 (code49)</option>
-            <option value="code93">Code 93 (code93)</option>
-            <option value="code93ext">Code 93 Extended (code93ext)</option>
-            <option value="codeone">Code One (codeone)</option>
-            <option value="coop2of5">COOP 2 of 5 (coop2of5)</option>
-            <option value="daft">Custom 4 state symbology (daft)</option>
-            <option value="databarexpanded">
-              GS1 DataBar Expanded (databarexpanded)
-            </option>
-            <option value="databarexpandedcomposite">
-              GS1 DataBar Expanded Composite (databarexpandedcomposite)
-            </option>
-            <option value="databarexpandedstacked">
-              GS1 DataBar Expanded Stacked (databarexpandedstacked)
-            </option>
-            <option value="databarexpandedstackedcomposite">
-              GS1 DataBar Expanded Stacked Composite
-              (databarexpandedstackedcomposite)
-            </option>
-            <option value="databarlimited">
-              GS1 DataBar Limited (databarlimited)
-            </option>
-            <option value="databarlimitedcomposite">
-              GS1 DataBar Limited Composite (databarlimitedcomposite)
-            </option>
-            <option value="databaromni">
-              GS1 DataBar Omnidirectional (databaromni)
-            </option>
-            <option value="databaromnicomposite">
-              GS1 DataBar Omnidirectional Composite (databaromnicomposite)
-            </option>
-            <option value="databarstacked">
-              GS1 DataBar Stacked (databarstacked)
-            </option>
-            <option value="databarstackedcomposite">
-              GS1 DataBar Stacked Composite (databarstackedcomposite)
-            </option>
-            <option value="databarstackedomni">
-              GS1 DataBar Stacked Omnidirectional (databarstackedomni)
-            </option>
-            <option value="databarstackedomnicomposite">
-              GS1 DataBar Stacked Omnidirectional Composite
-              (databarstackedomnicomposite)
-            </option>
-            <option value="databartruncated">
-              GS1 DataBar Truncated (databartruncated)
-            </option>
-            <option value="databartruncatedcomposite">
-              GS1 DataBar Truncated Composite (databartruncatedcomposite)
-            </option>
-            <option value="datalogic2of5">
-              Datalogic 2 of 5 (datalogic2of5)
-            </option>
-            <option value="datamatrix">Data Matrix (datamatrix)</option>
-            <option value="datamatrixrectangular">
-              Data Matrix Rectangular (datamatrixrectangular)
-            </option>
-            <option value="datamatrixrectangularextension">
-              Data Matrix Rectangular Extension (datamatrixrectangularextension)
-            </option>
-            <option value="dotcode">DotCode (dotcode)</option>
-            <option value="ean13">EAN-13 (ean13)</option>
-            <option value="ean13composite">
-              EAN-13 Composite (ean13composite)
-            </option>
-            <option value="ean14">GS1-14 (ean14)</option>
-            <option value="ean2">EAN-2 (2 digit addon) (ean2)</option>
-            <option value="ean5">EAN-5 (5 digit addon) (ean5)</option>
-            <option value="ean8">EAN-8 (ean8)</option>
-            <option value="ean8composite">
-              EAN-8 Composite (ean8composite)
-            </option>
-            <option value="flattermarken">Flattermarken (flattermarken)</option>
-            <option value="gs1-128">GS1-128 (gs1-128)</option>
-            <option value="gs1-128composite">
-              GS1-128 Composite (gs1-128composite)
-            </option>
-            <option value="gs1-cc">GS1 Composite 2D Component (gs1-cc)</option>
-            <option value="gs1datamatrix">
-              GS1 Data Matrix (gs1datamatrix)
-            </option>
-            <option value="gs1datamatrixrectangular">
-              GS1 Data Matrix Rectangular (gs1datamatrixrectangular)
-            </option>
-            <option value="gs1dldatamatrix">
-              GS1 Digital Link Data Matrix (gs1dldatamatrix)
-            </option>
-            <option value="gs1dlqrcode">
-              GS1 Digital Link QR Code (gs1dlqrcode)
-            </option>
-            <option value="gs1dotcode">GS1 DotCode (gs1dotcode)</option>
-            <option value="gs1northamericancoupon">
-              GS1 North American Coupon (gs1northamericancoupon)
-            </option>
-            <option value="gs1qrcode">GS1 QR Code (gs1qrcode)</option>
-            <option value="hanxin">Han Xin Code (hanxin)</option>
-            <option value="hibcazteccode">
-              HIBC Aztec Code (hibcazteccode)
-            </option>
-            <option value="hibccodablockf">
-              HIBC Codablock F (hibccodablockf)
-            </option>
-            <option value="hibccode128">HIBC Code 128 (hibccode128)</option>
-            <option value="hibccode39">HIBC Code 39 (hibccode39)</option>
-            <option value="hibcdatamatrix">
-              HIBC Data Matrix (hibcdatamatrix)
-            </option>
-            <option value="hibcdatamatrixrectangular">
-              HIBC Data Matrix Rectangular (hibcdatamatrixrectangular)
-            </option>
-            <option value="hibcmicropdf417">
-              HIBC MicroPDF417 (hibcmicropdf417)
-            </option>
-            <option value="hibcpdf417">HIBC PDF417 (hibcpdf417)</option>
-            <option value="hibcqrcode">HIBC QR Code (hibcqrcode)</option>
-            <option value="iata2of5">IATA 2 of 5 (iata2of5)</option>
-            <option value="identcode">
-              Deutsche Post Identcode (identcode)
-            </option>
-            <option value="industrial2of5">
-              Industrial 2 of 5 (industrial2of5)
-            </option>
-            <option value="interleaved2of5">
-              Interleaved 2 of 5 (ITF) (interleaved2of5)
-            </option>
-            <option value="isbn">ISBN (isbn)</option>
-            <option value="ismn">ISMN (ismn)</option>
-            <option value="issn">ISSN (issn)</option>
-            <option value="itf14">ITF-14 (itf14)</option>
-            <option value="japanpost">
-              Japan Post 4 State Customer Code (japanpost)
-            </option>
-            <option value="kix">Royal Dutch TPG Post KIX (kix)</option>
-            <option value="leitcode">Deutsche Post Leitcode (leitcode)</option>
-            <option value="mailmark">Royal Mail Mailmark (mailmark)</option>
-            <option value="mands">Marks & Spencer (mands)</option>
-            <option value="matrix2of5">Matrix 2 of 5 (matrix2of5)</option>
-            <option value="maxicode">MaxiCode (maxicode)</option>
-            <option value="micropdf417">MicroPDF417 (micropdf417)</option>
-            <option value="microqrcode">Micro QR Code (microqrcode)</option>
-            <option value="msi">MSI Modified Plessey (msi)</option>
-            <option value="onecode">USPS Intelligent Mail (onecode)</option>
-            <option value="pdf417">PDF417 (pdf417)</option>
-            <option value="pdf417compact">
-              Compact PDF417 (pdf417compact)
-            </option>
-            <option value="pharmacode">
-              Pharmaceutical Binary Code (pharmacode)
-            </option>
-            <option value="pharmacode2">
-              Two-track Pharmacode (pharmacode2)
-            </option>
-            <option value="planet">USPS PLANET (planet)</option>
-            <option value="plessey">Plessey UK (plessey)</option>
-            <option value="posicode">PosiCode (posicode)</option>
-            <option value="postnet">USPS POSTNET (postnet)</option>
-            <option value="pzn">Pharmazentralnummer (PZN) (pzn)</option>
-            <option value="qrcode">QR Code (qrcode)</option>
-            <option value="rationalizedCodabar">
-              Codabar (rationalizedCodabar)
-            </option>
-            <option value="raw">Custom 1D symbology (raw)</option>
-            <option value="rectangularmicroqrcode">
-              Rectangular Micro QR Code (rectangularmicroqrcode)
-            </option>
-            <option value="royalmail">
-              Royal Mail 4 State Customer Code (royalmail)
-            </option>
-            <option value="sscc18">SSCC-18 (sscc18)</option>
-            <option value="swissqrcode">Swiss QR Code (swissqrcode)</option>
-            <option value="symbol">Miscellaneous symbols (symbol)</option>
-            <option value="telepen">Telepen (telepen)</option>
-            <option value="telepennumeric">
-              Telepen Numeric (telepennumeric)
-            </option>
-            <option value="ultracode">Ultracode (ultracode)</option>
-            <option value="upca">UPC-A (upca)</option>
-            <option value="upcacomposite">
-              UPC-A Composite (upcacomposite)
-            </option>
-            <option value="upce">UPC-E (upce)</option>
-            <option value="upcecomposite">
-              UPC-E Composite (upcecomposite)
-            </option>
-          </select>
-          <button onclick="update()">Update</button>
+          <div style="display: flex; justify-content: flex-end">
+            <select onchange="generateCodes(this.value)" id="code-type-select">
+              <option selected disabled value="">
+                or select from this list
+              </option>
+              <option value="auspost">
+                AusPost 4 State Customer Code (auspost)
+              </option>
+              <option value="azteccode">Aztec Code (azteccode)</option>
+              <option value="azteccodecompact">
+                Compact Aztec Code (azteccodecompact)
+              </option>
+              <option value="aztecrune">Aztec Runes (aztecrune)</option>
+              <option value="bc412">BC412 (bc412)</option>
+              <option value="channelcode">Channel Code (channelcode)</option>
+              <option value="codablockf">Codablock F (codablockf)</option>
+              <option value="code11">Code 11 (code11)</option>
+              <option value="code128">Code 128 (code128)</option>
+              <option value="code16k">Code 16K (code16k)</option>
+              <option value="code2of5">Code 25 (code2of5)</option>
+              <option value="code32">Italian Pharmacode (code32)</option>
+              <option value="code39">Code 39 (code39)</option>
+              <option value="code39ext">Code 39 Extended (code39ext)</option>
+              <option value="code49">Code 49 (code49)</option>
+              <option value="code93">Code 93 (code93)</option>
+              <option value="code93ext">Code 93 Extended (code93ext)</option>
+              <option value="codeone">Code One (codeone)</option>
+              <option value="coop2of5">COOP 2 of 5 (coop2of5)</option>
+              <option value="daft">Custom 4 state symbology (daft)</option>
+              <option value="databarexpanded">
+                GS1 DataBar Expanded (databarexpanded)
+              </option>
+              <option value="databarexpandedcomposite">
+                GS1 DataBar Expanded Composite (databarexpandedcomposite)
+              </option>
+              <option value="databarexpandedstacked">
+                GS1 DataBar Expanded Stacked (databarexpandedstacked)
+              </option>
+              <option value="databarexpandedstackedcomposite">
+                GS1 DataBar Expanded Stacked Composite
+                (databarexpandedstackedcomposite)
+              </option>
+              <option value="databarlimited">
+                GS1 DataBar Limited (databarlimited)
+              </option>
+              <option value="databarlimitedcomposite">
+                GS1 DataBar Limited Composite (databarlimitedcomposite)
+              </option>
+              <option value="databaromni">
+                GS1 DataBar Omnidirectional (databaromni)
+              </option>
+              <option value="databaromnicomposite">
+                GS1 DataBar Omnidirectional Composite (databaromnicomposite)
+              </option>
+              <option value="databarstacked">
+                GS1 DataBar Stacked (databarstacked)
+              </option>
+              <option value="databarstackedcomposite">
+                GS1 DataBar Stacked Composite (databarstackedcomposite)
+              </option>
+              <option value="databarstackedomni">
+                GS1 DataBar Stacked Omnidirectional (databarstackedomni)
+              </option>
+              <option value="databarstackedomnicomposite">
+                GS1 DataBar Stacked Omnidirectional Composite
+                (databarstackedomnicomposite)
+              </option>
+              <option value="databartruncated">
+                GS1 DataBar Truncated (databartruncated)
+              </option>
+              <option value="databartruncatedcomposite">
+                GS1 DataBar Truncated Composite (databartruncatedcomposite)
+              </option>
+              <option value="datalogic2of5">
+                Datalogic 2 of 5 (datalogic2of5)
+              </option>
+              <option value="datamatrix">Data Matrix (datamatrix)</option>
+              <option value="datamatrixrectangular">
+                Data Matrix Rectangular (datamatrixrectangular)
+              </option>
+              <option value="datamatrixrectangularextension">
+                Data Matrix Rectangular Extension
+                (datamatrixrectangularextension)
+              </option>
+              <option value="dotcode">DotCode (dotcode)</option>
+              <option value="ean13">EAN-13 (ean13)</option>
+              <option value="ean13composite">
+                EAN-13 Composite (ean13composite)
+              </option>
+              <option value="ean14">GS1-14 (ean14)</option>
+              <option value="ean2">EAN-2 (2 digit addon) (ean2)</option>
+              <option value="ean5">EAN-5 (5 digit addon) (ean5)</option>
+              <option value="ean8">EAN-8 (ean8)</option>
+              <option value="ean8composite">
+                EAN-8 Composite (ean8composite)
+              </option>
+              <option value="flattermarken">
+                Flattermarken (flattermarken)
+              </option>
+              <option value="gs1-128">GS1-128 (gs1-128)</option>
+              <option value="gs1-128composite">
+                GS1-128 Composite (gs1-128composite)
+              </option>
+              <option value="gs1-cc">
+                GS1 Composite 2D Component (gs1-cc)
+              </option>
+              <option value="gs1datamatrix">
+                GS1 Data Matrix (gs1datamatrix)
+              </option>
+              <option value="gs1datamatrixrectangular">
+                GS1 Data Matrix Rectangular (gs1datamatrixrectangular)
+              </option>
+              <option value="gs1dldatamatrix">
+                GS1 Digital Link Data Matrix (gs1dldatamatrix)
+              </option>
+              <option value="gs1dlqrcode">
+                GS1 Digital Link QR Code (gs1dlqrcode)
+              </option>
+              <option value="gs1dotcode">GS1 DotCode (gs1dotcode)</option>
+              <option value="gs1northamericancoupon">
+                GS1 North American Coupon (gs1northamericancoupon)
+              </option>
+              <option value="gs1qrcode">GS1 QR Code (gs1qrcode)</option>
+              <option value="hanxin">Han Xin Code (hanxin)</option>
+              <option value="hibcazteccode">
+                HIBC Aztec Code (hibcazteccode)
+              </option>
+              <option value="hibccodablockf">
+                HIBC Codablock F (hibccodablockf)
+              </option>
+              <option value="hibccode128">HIBC Code 128 (hibccode128)</option>
+              <option value="hibccode39">HIBC Code 39 (hibccode39)</option>
+              <option value="hibcdatamatrix">
+                HIBC Data Matrix (hibcdatamatrix)
+              </option>
+              <option value="hibcdatamatrixrectangular">
+                HIBC Data Matrix Rectangular (hibcdatamatrixrectangular)
+              </option>
+              <option value="hibcmicropdf417">
+                HIBC MicroPDF417 (hibcmicropdf417)
+              </option>
+              <option value="hibcpdf417">HIBC PDF417 (hibcpdf417)</option>
+              <option value="hibcqrcode">HIBC QR Code (hibcqrcode)</option>
+              <option value="iata2of5">IATA 2 of 5 (iata2of5)</option>
+              <option value="identcode">
+                Deutsche Post Identcode (identcode)
+              </option>
+              <option value="industrial2of5">
+                Industrial 2 of 5 (industrial2of5)
+              </option>
+              <option value="interleaved2of5">
+                Interleaved 2 of 5 (ITF) (interleaved2of5)
+              </option>
+              <option value="isbn">ISBN (isbn)</option>
+              <option value="ismn">ISMN (ismn)</option>
+              <option value="issn">ISSN (issn)</option>
+              <option value="itf14">ITF-14 (itf14)</option>
+              <option value="japanpost">
+                Japan Post 4 State Customer Code (japanpost)
+              </option>
+              <option value="kix">Royal Dutch TPG Post KIX (kix)</option>
+              <option value="leitcode">
+                Deutsche Post Leitcode (leitcode)
+              </option>
+              <option value="mailmark">Royal Mail Mailmark (mailmark)</option>
+              <option value="mands">Marks & Spencer (mands)</option>
+              <option value="matrix2of5">Matrix 2 of 5 (matrix2of5)</option>
+              <option value="maxicode">MaxiCode (maxicode)</option>
+              <option value="micropdf417">MicroPDF417 (micropdf417)</option>
+              <option value="microqrcode">Micro QR Code (microqrcode)</option>
+              <option value="msi">MSI Modified Plessey (msi)</option>
+              <option value="onecode">USPS Intelligent Mail (onecode)</option>
+              <option value="pdf417">PDF417 (pdf417)</option>
+              <option value="pdf417compact">
+                Compact PDF417 (pdf417compact)
+              </option>
+              <option value="pharmacode">
+                Pharmaceutical Binary Code (pharmacode)
+              </option>
+              <option value="pharmacode2">
+                Two-track Pharmacode (pharmacode2)
+              </option>
+              <option value="planet">USPS PLANET (planet)</option>
+              <option value="plessey">Plessey UK (plessey)</option>
+              <option value="posicode">PosiCode (posicode)</option>
+              <option value="postnet">USPS POSTNET (postnet)</option>
+              <option value="pzn">Pharmazentralnummer (PZN) (pzn)</option>
+              <option value="qrcode">QR Code (qrcode)</option>
+              <option value="rationalizedCodabar">
+                Codabar (rationalizedCodabar)
+              </option>
+              <option value="raw">Custom 1D symbology (raw)</option>
+              <option value="rectangularmicroqrcode">
+                Rectangular Micro QR Code (rectangularmicroqrcode)
+              </option>
+              <option value="royalmail">
+                Royal Mail 4 State Customer Code (royalmail)
+              </option>
+              <option value="sscc18">SSCC-18 (sscc18)</option>
+              <option value="swissqrcode">Swiss QR Code (swissqrcode)</option>
+              <option value="symbol">Miscellaneous symbols (symbol)</option>
+              <option value="telepen">Telepen (telepen)</option>
+              <option value="telepennumeric">
+                Telepen Numeric (telepennumeric)
+              </option>
+              <option value="ultracode">Ultracode (ultracode)</option>
+              <option value="upca">UPC-A (upca)</option>
+              <option value="upcacomposite">
+                UPC-A Composite (upcacomposite)
+              </option>
+              <option value="upce">UPC-E (upce)</option>
+              <option value="upcecomposite">
+                UPC-E Composite (upcecomposite)
+              </option>
+            </select>
+            <button onclick="update()">Generate</button>
+          </div>
         </div>
 
         <div style="margin: 16px 0; max-width: 100%">
           <span id="error-indicator"></span>
         </div>
         <div id="barcodes"></div>
-
-        <div
-          style="
-            line-height: 1.5em;
-            padding: 100px 0;
-            font-size: 9pt;
-            text-align: center;
-            line-height: 1.5em;
-          "
-        >
-          Uses
-          <a href="https://github.com/metafloor/bwip-js">bwip-js</a>
-          <br />
-          <span
-            >Made by
-            <a href="https://joonakeskitalo.github.io/"
-              >Joona Keskitalo</a
-            ></span
-          >
-        </div>
       </div>
     </div>
     <script src="./lib/bwip-js-min.js"></script>
